@@ -1,0 +1,52 @@
+dependencies {
+    implementation "org.springdoc:springdoc-openapi-ui:1.8.0"
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-actuator-autoconfigure'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.integration:spring-integration-core'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.vintage:junit-vintage-engine'
+    implementation "org.springframework.cloud:spring-cloud-config-server"
+    implementation 'commons-io:commons-io:2.9.0'
+    implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-websocket'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-el'
+    implementation 'org.apache.tomcat:tomcat-annotations-api'
+    implementation 'org.xmlunit:xmlunit-core:2.10.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation 'org.apache.commons:commons-text:1.10.0'
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation group: 'com.datadoghq', name: 'dd-trace-api', version: '0.115.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+    implementation 'org.springframework:spring-core'
+    implementation 'org.webjars:webjars-locator:0.46'
+    implementation 'io.github.classgraph:classgraph:4.8.157'
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.4'
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.1.0'
+    implementation 'com.google.code.findbugs:annotations:3.0.1'
+
+    configurations.all {
+        exclude group: 'org.yaml', module: 'snakeyaml'
+
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'org.apache.logging.log4j') {
+                details.useVersion '2.17.2'
+            }
+            if (details.requested.group == 'org.xmlunit.xmlunit-core') {
+                details.useVersion '2.10.0'
+            }
+            if (details.requested.group == 'org.xerial.snappy') {
+                details.useVersion '1.1.10.4'
+            }
+            if (details.requested.group == 'io.github.resilience4j') {
+                details.useVersion '2.1.0'
+            }
+        }
+    }
+}

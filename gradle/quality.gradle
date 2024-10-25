@@ -1,0 +1,37 @@
+//Linting of the code using checkstyle and PMD
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+
+checkstyle{
+  description 'Check code standard'
+  configFile file('./gradle/code_quality_tools/checkstyle.xml')
+  ignoreFailures = true
+  showViolations = false
+}
+
+tasks.withType(Pmd) {
+  reports {
+    xml.enabled = true
+    html.enabled = true
+  }
+  ruleSets = [
+               'java-basic',
+               'java-braces',
+               'java-clone',
+               'java-codesize',
+               'java-comments',
+               'java-controversial',
+               'java-coupling',
+               'java-design',
+               'java-empty',
+               'java-finalizers',
+               'java-imports',
+               'java-optimizations',
+               'java-strictexception',
+               'java-strings',
+               'java-typeresolution',
+               'java-unnecessary',
+               'java-unusedcode'
+  ]
+  ignoreFailures = true
+}

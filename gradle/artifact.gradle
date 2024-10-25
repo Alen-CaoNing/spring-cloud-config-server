@@ -1,0 +1,4 @@
+tasks.withType(Jar) {
+   archivesBaseName = 'gs-spring-boot'
+   version = project.version
+}

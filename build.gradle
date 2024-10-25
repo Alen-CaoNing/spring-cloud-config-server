@@ -1,0 +1,86 @@
+plugins {
+    id "java"
+    id "jacoco"
+    id 'io.freefair.lombok' version '8.10.2'
+    id "io.spring.dependency-management" version "1.1.6"
+    id 'org.springframework.boot' version '3.3.5'
+}
+ext {
+    springCloudVersion = "2023.0.3"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        xml.enabled true
+    }
+}
+
+//lombok {
+//    configuration['lombok.annotations.addLombokGeneratedAnnotation'] = true
+//    configuration['lombok.extern.findbugs.addSuppressFBWarnings'] = true
+//    configuration['lombok.log.fieldName'] = 'LOGGER'
+//}
+
+
+jar {
+    enabled = false
+}
+
+
+
+group = "com.cargill.cloudconfig"
+version = project.version
+sourceCompatibility = 17
+
+
+project.ext {
+    gradleToolsDir="${rootDir}/gradle"
+}
+
+/*****************************************************
+ **** Section: Gradle dependencies file definition ****
+ *****************************************************/
+apply from:"${gradleToolsDir}/dependencies.gradle"
+
+/**********************************************
+ **** Section: Unit Testing task definition ****
+ **********************************************/
+if (hasProperty('unittesting')) {
+    apply from:"${gradleToolsDir}/unitTests.gradle"
+}
+
+/**********************************************
+ **** Section: COde Covarage task definition****
+ **********************************************/
+if (hasProperty('coverage')) {
+    apply from:"${gradleToolsDir}/coverage.gradle"
+}
+
+/*****************************************
+ **** Section: Linting task definition ****
+ *****************************************/
+if (hasProperty('linting')) {
+    apply from:"${gradleToolsDir}/quality.gradle"
+}
+
+/************************************************
+ **** Section: Build artifact task definition ****
+ ************************************************/
+if (hasProperty('artifact')) {
+    apply from:"${gradleToolsDir}/artifact.gradle"
+}
